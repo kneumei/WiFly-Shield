@@ -18,6 +18,8 @@ class WiFlyDevice {
     // usual ip format ("192.168.100.42")
     void beginIP(const char *ip);
 
+    void beginConfigFile(const char *ip);
+
 	  boolean createAdHocNetwork(const char *ssid);
 
     boolean join(const char *ssid);

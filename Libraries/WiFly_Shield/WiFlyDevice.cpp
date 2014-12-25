@@ -1,6 +1,6 @@
 #include "WiFly.h"
 
-#define DEBUG_LEVEL 0
+#define DEBUG_LEVEL 1
 
 #include "Debug.h"
 
@@ -309,6 +309,23 @@ void WiFlyDevice::beginIP(const char *ip) {
   reboot(); // Reboot to get device into known state
   //requireFlowControl();
   setConfiguration(false, ip);
+}
+
+void WiFlyDevice::beginConfigFile(const char *configFile){
+  DEBUG_LOG(1, "Entered WiFlyDevice::beginConfigFile()");
+  if (!bDifferentUart) SPIuart.begin();
+  reboot(); // Reboot to get device into known state
+  //requireFlowControl();
+  enterCommandMode();
+
+  String loadCommand = "load ";
+  loadCommand += configFile;
+
+  char charBuf[loadCommand.length()+1];
+  loadCommand.toCharArray(charBuf, loadCommand.length()+1);
+
+  sendCommand(charBuf, false, "AOK");
+
 }
 
 
